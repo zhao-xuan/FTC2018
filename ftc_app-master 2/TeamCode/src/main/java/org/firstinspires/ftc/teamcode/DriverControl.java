@@ -104,18 +104,18 @@ public class DriverControl extends LinearOpMode {
             double rightX = gamepad1.right_stick_x;
             final double v1 = r * Math.cos(robotAngle) + rightX;
             final double v2 = r * Math.sin(robotAngle) - rightX;
-            final double vD3 = r * Math.sin(robotAngle) + rightX;
+            final double v3 = r * Math.sin(robotAngle) + rightX;
             final double v4 = r * Math.cos(robotAngle) - rightX;
 
             leftDrivef.setPower(v1);
             rightDrivef.setPower(v2);
-            leftDriveb.setPower(vD3);
+            leftDriveb.setPower(v3);
             rightDriveb.setPower(v4);
 
             // Tank Mode uses one stick to control each wheel.
             // - This requires no math, but it is hard to drive forward slowly and keep straight.
             //leftPower  = -gamepad1.left_stick_y ;
-             rightPower = -gamepad1.right_stick_y ;
+            //rightPower = -gamepad1.right_stick_y ;
 
             // Send calculated power to wheels
 
