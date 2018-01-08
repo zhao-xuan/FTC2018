@@ -29,12 +29,11 @@
 
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.util.Range;
+import com.qualcomm.robotcore.hardware.Servo;
 
 
 /**
@@ -60,7 +59,9 @@ public class DriverControl extends LinearOpMode {
     private DcMotor rightDrivef;
     private DcMotor leftDriveb;
     private DcMotor rightDriveb;
-
+    private DcMotor forklift;
+    private Servo handLeft;
+    private Servo handRight;
 
     @Override
     public void runOpMode() {
@@ -74,6 +75,9 @@ public class DriverControl extends LinearOpMode {
         rightDrivef = hardwareMap.get(DcMotor.class, "right_drivef");
         leftDriveb  = hardwareMap.get(DcMotor.class, "left_driveb");
         rightDriveb = hardwareMap.get(DcMotor.class, "right_driveb");
+        forklift = hardwareMap.get(DcMotor.class, "forklift");
+        handLeft = hardwareMap.get(Servo.class, "handLeft");
+        handRight = hardwareMap.get(Servo.class, "handRight");
 
         // Most robots need the motor on one side to be reversed to drive forward
         // Reverse the motor that runs backwards when connected directly to the battery
@@ -81,6 +85,7 @@ public class DriverControl extends LinearOpMode {
         rightDrivef.setDirection(DcMotor.Direction.REVERSE);
         leftDriveb.setDirection(DcMotor.Direction.FORWARD);
         rightDriveb.setDirection(DcMotor.Direction.REVERSE);
+        forklift.setDirection(DcMotor.Direction.FORWARD);
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
@@ -98,10 +103,10 @@ public class DriverControl extends LinearOpMode {
             // POV Mode uses left stick to go forward, and right stick to turn.
             // - This uses basic math to combine motions and is easier to drive straight.
 
-
-            double r = Math.hypot(gamepad1.right_stick_x, gamepad1.left_stick_y); //check if we need to make "gamepad1.left_stick_y" negative"
+            //set the received right joystick x value to neg
+            double r = Math.hypot(-gamepad1.right_stick_x, gamepad1.left_stick_y); //check if we need to make "gamepad1.left_stick_y" negative"
             double robotAngle = Math.atan2(gamepad1.left_stick_y, gamepad1.left_stick_x) - Math.PI / 4;
-            double rightX = gamepad1.right_stick_x;
+            double rightX = -gamepad1.right_stick_x;
             final double v1 = r * Math.cos(robotAngle) + rightX;
             final double v2 = r * Math.sin(robotAngle) - rightX;
             final double v3 = r * Math.sin(robotAngle) + rightX;
@@ -112,16 +117,32 @@ public class DriverControl extends LinearOpMode {
             leftDriveb.setPower(v3);
             rightDriveb.setPower(v4);
 
-            // Tank Mode uses one stick to control each wheel.
-            // - This requires no math, but it is hard to drive forward slowly and keep straight.
-            //leftPower  = -gamepad1.left_stick_y ;
-            //rightPower = -gamepad1.right_stick_y ;
+            //Control the forklift
+            if (gamepad1.a){
+                forklift.setPower(0.6);
+            }
+            else if (gamepad1.b){
+                forklift.setPower(-0.6);
+            }
+            else{
+                forklift.setPower(0);
+            }
 
-            // Send calculated power to wheels
+            //Control the hand (servo)
+            if(gamepad1.y){
+                handLeft.setPosition(0);
+                handRight.setPosition(0.8);
+            }
+            else if (gamepad1.x){
+                handLeft.setPosition(0.6);
+                handRight.setPosition(0.2);
+            }
 
-
-            // Show the elapsed game time and hhwheel power.
+            // Show the elapsed game time and wheel power.
             telemetry.addData("Status", "Run Time: " + runtime.toString());
+            telemetry.addData("Servo Position", handLeft.getPosition());
+            telemetry.addData("Servo Position", handRight.getPosition());
+
             //This is TOM horsing around
             telemetry.update();
         }
