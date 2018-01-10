@@ -41,6 +41,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 import com.qualcomm.robotcore.hardware.NormalizedColorSensor;
 import com.qualcomm.robotcore.hardware.NormalizedRGBA;
+import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cColorSensor;
 import com.qualcomm.robotcore.hardware.SwitchableLight;
 
 /**
@@ -68,7 +69,9 @@ public class BasicAutonomous extends LinearOpMode {
     private DcMotor leftDriveb;
     private DcMotor rightDriveb;
 
-    NormalizedColorSensor colorSensor;
+    //NormalizedColorSensor colorSensor;
+    ModernRoboticsI2cColorSensor colorSensor = null;
+
     View relativeLayout;
 
     @Override
@@ -99,13 +102,23 @@ public class BasicAutonomous extends LinearOpMode {
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
 
-            driveStraight(1);
-            sleep(5000); //for 5 seconds
-            turn(1);
-            sleep(2000);
-            stopDriving();
+            //driveStraight(1);
+            //sleep(5000); //for 5 seconds
+            //turn(1);
+            //sleep(2000);
+            //stopDriving();
 
-            try {
+            int color_num = colorSensor.readUnsignedByte(ModernRoboticsI2cColorSensor.Register.COLOR_NUMBER);
+            if (color_num >= 2 && color_num <= 3) {
+                driveStraight(1);
+                sleep(1000);
+            } else if (color_num >= 10 && color_num <= 11) {
+                driveStraight(-1);
+                sleep(1000);
+            }
+
+
+            /*try {
                 runSample(); // actually execute the sample
             } finally {
                 // On the way out, *guarantee* that the background is reasonable. It doesn't actually start off
@@ -117,7 +130,7 @@ public class BasicAutonomous extends LinearOpMode {
                         relativeLayout.setBackgroundColor(Color.WHITE);
                     }
                 });
-            }
+            }*/
 
             // Show the elapsed game time and wheel power.
             telemetry.addData("Status", "Run Time: " + runtime.toString());
@@ -160,15 +173,11 @@ public class BasicAutonomous extends LinearOpMode {
         rightDriveb.setPower(v4);
     }
 
-    protected void runSample() throws InterruptedException {
+    /*protected void runSample() throws InterruptedException {
 
         // values is a reference to the hsvValues array.
         float[] hsvValues = new float[3];
         final float values[] = hsvValues;
-
-        // bPrevState and bCurrState keep track of the previous and current state of the button
-        boolean bPrevState = false;
-        boolean bCurrState = false;
 
         // Get a reference to our sensor object.
         colorSensor = hardwareMap.get(NormalizedColorSensor.class, "sensor_color");
@@ -180,7 +189,6 @@ public class BasicAutonomous extends LinearOpMode {
         }
 
         // Wait for the start button to be pressed.
-        waitForStart();
 
         // Loop until we are asked to stop
         while (opModeIsActive()) {
@@ -191,15 +199,17 @@ public class BasicAutonomous extends LinearOpMode {
             /** Use telemetry to display feedback on the driver station. We show the conversion
              * of the colors to hue, saturation and value, and display the the normalized values
              * as returned from the sensor.
-             * @see <a href="http://infohost.nmt.edu/tcc/help/pubs/colortheory/web/hsv.html">HSV</a>*/
+             * @see <a href="http://infohost.nmt.edu/tcc/help/pubs/colortheory/web/hsv.html">HSV</a>
 
             Color.colorToHSV(colors.toColor(), hsvValues);
             if (hsvValues[0] <= 230 && hsvValues[0] >= 200) {
                 //blue jewel
                 driveStraight(1);
+                sleep(1000);
             } else if (hsvValues[0] <= 5 || hsvValues[0] >= 350) {
                 //red jewel
                 driveStraight(-1);
+                sleep(1000);
             }
 
             telemetry.addLine()
@@ -212,8 +222,8 @@ public class BasicAutonomous extends LinearOpMode {
                     .addData("g", "%.3f", colors.green)
                     .addData("b", "%.3f", colors.blue);
 
-            /** We also display a conversion of the colors to an equivalent Android color integer.
-             * @see Color */
+            //We also display a conversion of the colors to an equivalent Android color integer.
+
             int color = colors.toColor();
             telemetry.addLine("raw Android color: ")
                     .addData("a", "%02x", Color.alpha(color))
@@ -256,5 +266,5 @@ public class BasicAutonomous extends LinearOpMode {
                 }
             });
         }
-    }
+    }*/
 }
