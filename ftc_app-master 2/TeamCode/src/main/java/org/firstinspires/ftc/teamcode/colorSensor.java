@@ -111,13 +111,13 @@ public class colorSensor extends LinearOpMode {
             int color_num = colorSensor.readUnsignedByte(ModernRoboticsI2cColorSensor.Register.COLOR_NUMBER);
             if (color_num >= 1 && color_num <= 3){
                 driveStraight(1); //we are red team, recognize the ball is blue, go foward
-                sleep(150);
+                sleep(250);
                 stopDriving();
                 sideArm.setPosition(1);
             }
             else if (color_num >= 10 && color_num <= 12){
                 driveStraight(-1); //we are red team, recognize the ball is red, go back
-                sleep(150);
+                sleep(250);
                 stopDriving();
                 sideArm.setPosition(1);
 
