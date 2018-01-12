@@ -86,6 +86,7 @@ public class ColorSensorTest extends LinearOpMode {
             // as pure white, but it's too much work to dig out what actually was used, and this is good
             // enough to at least make the screen reasonable again.
             // Set the panel back to the default color
+            //IS THIS NECESSARY?
             relativeLayout.post(new Runnable() {
                 public void run() {
                     relativeLayout.setBackgroundColor(Color.WHITE);
@@ -136,16 +137,12 @@ public class ColorSensorTest extends LinearOpMode {
             // Read the sensor
             NormalizedRGBA colors = colorSensor.getNormalizedColors();
 
-
             /** Use telemetry to display feedback on the driver station. We show the conversion
              * of the colors to hue, saturation and value, and display the the normalized values
              * as returned from the sensor.
              * @see <a href="http://infohost.nmt.edu/tcc/help/pubs/colortheory/web/hsv.html">HSV</a>*/
 
             Color.colorToHSV(colors.toColor(), hsvValues);
-
-
-
             telemetry.addLine()
                     .addData("H", "%.3f", hsvValues[0])
                     .addData("S", "%.3f", hsvValues[1])

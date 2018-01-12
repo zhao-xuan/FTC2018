@@ -37,12 +37,11 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
-import com.qualcomm.robotcore.hardware.NormalizedColorSensor;
-import com.qualcomm.robotcore.hardware.NormalizedRGBA;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cColorSensor;
-import com.qualcomm.robotcore.hardware.SwitchableLight;
 
 /**
  * This file contains an minimal example of a Linear "OpMode". An OpMode is a 'program' that runs in either
@@ -57,22 +56,24 @@ import com.qualcomm.robotcore.hardware.SwitchableLight;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="Basic Autonomous", group="Linear Opmode")
+@Autonomous(name="ColorSensor", group="Linear Opmode")
 //@Disabled
-public class BasicAutonomous extends LinearOpMode {
+public class colorSensor extends LinearOpMode {
 
     // Declare OpMode members.
 
     private ElapsedTime runtime = new ElapsedTime();
-    private DcMotor leftDrivef;
-    private DcMotor rightDrivef;
-    private DcMotor leftDriveb;
-    private DcMotor rightDriveb;
+    public DcMotor leftDrivef;
+    public DcMotor rightDrivef;
+    public DcMotor leftDriveb;
+    public DcMotor rightDriveb;
+    public Servo sideArm;
+    public ModernRoboticsI2cColorSensor colorSensor = null;
+
+
 
     //NormalizedColorSensor colorSensor;
-    ModernRoboticsI2cColorSensor colorSensor = null;
-
-    View relativeLayout;
+    //View relativeLayout;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -86,43 +87,58 @@ public class BasicAutonomous extends LinearOpMode {
         rightDrivef = hardwareMap.get(DcMotor.class, "right_drivef");
         leftDriveb  = hardwareMap.get(DcMotor.class, "left_driveb");
         rightDriveb = hardwareMap.get(DcMotor.class, "right_driveb");
+        sideArm = hardwareMap.get(Servo.class, "sideArm");
         colorSensor = hardwareMap.get(ModernRoboticsI2cColorSensor.class, "colorSensor");
 
         // Most robots need the motor on one side to be reversed to drive forward
         // Reverse the motor that runs backwards when connected directly to the battery
-        leftDrivef.setDirection(DcMotor.Direction.FORWARD);
-        rightDrivef.setDirection(DcMotor.Direction.REVERSE);
-        leftDriveb.setDirection(DcMotor.Direction.FORWARD);
-        rightDriveb.setDirection(DcMotor.Direction.REVERSE);
+        leftDrivef.setDirection(DcMotor.Direction.REVERSE);
+        rightDrivef.setDirection(DcMotor.Direction.FORWARD);
+        leftDriveb.setDirection(DcMotor.Direction.REVERSE);
+        rightDriveb.setDirection(DcMotor.Direction.FORWARD);
 
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
         runtime.reset();
 
+        sideArm.setPosition(0.3);
+
+
+        while (opModeIsActive()){
+            //sideArm.setPosition(0.3);
+            colorSensor.enableLed(true);
+            int color_num = colorSensor.readUnsignedByte(ModernRoboticsI2cColorSensor.Register.COLOR_NUMBER);
+            if (color_num >= 1 && color_num <= 3){
+                driveStraight(1); //we are red team, recognize the ball is blue, go foward
+                sleep(150);
+                stopDriving();
+                sideArm.setPosition(1);
+            }
+            else if (color_num >= 10 && color_num <= 12){
+                driveStraight(-1); //we are red team, recognize the ball is red, go back
+                sleep(150);
+                stopDriving();
+                sideArm.setPosition(1);
+
+            }
+
+
+            telemetry.addData("Status", "Run Time: " + color_num);
+            telemetry.update();
+
+        }
+
         // run until the end of the match (driver presses STOP)
-        while (opModeIsActive()) {
+        //while (opModeIsActive()) {
 
             //driveStraight(1);
             //sleep(5000); //for 5 seconds
             //turn(1);
             //sleep(2000);
             //stopDriving();
-
-            int color_num = colorSensor.readUnsignedByte(ModernRoboticsI2cColorSensor.Register.COLOR_NUMBER);
-            if (color_num >= 2 && color_num <= 3) {
-                driveStraight(1);
-                sleep(1000);
-            } else if (color_num >= 10 && color_num <= 11) {
-                driveStraight(-1);
-                sleep(1000);
-            }
-            else{
-                stopDriving();
-            }
-
-
-            /*try {
+        /*
+            try {
                 runSample(); // actually execute the sample
             } finally {
                 // On the way out, *guarantee* that the background is reasonable. It doesn't actually start off
@@ -134,12 +150,11 @@ public class BasicAutonomous extends LinearOpMode {
                         relativeLayout.setBackgroundColor(Color.WHITE);
                     }
                 });
-            }*/
-
+            }
+          */
             // Show the elapsed game time and wheel power.
-            telemetry.addData("Status", "Run Time: " + runtime.toString());
-            telemetry.update();
-        }
+
+        //}
     }
 
     public void driveStraight (double power){
@@ -176,12 +191,16 @@ public class BasicAutonomous extends LinearOpMode {
         leftDriveb.setPower(v3);
         rightDriveb.setPower(v4);
     }
-
-    /*protected void runSample() throws InterruptedException {
+    /*
+    protected void runSample() throws InterruptedException {
 
         // values is a reference to the hsvValues array.
         float[] hsvValues = new float[3];
         final float values[] = hsvValues;
+
+        // bPrevState and bCurrState keep track of the previous and current state of the button
+        boolean bPrevState = false;
+        boolean bCurrState = false;
 
         // Get a reference to our sensor object.
         colorSensor = hardwareMap.get(NormalizedColorSensor.class, "sensor_color");
@@ -193,6 +212,7 @@ public class BasicAutonomous extends LinearOpMode {
         }
 
         // Wait for the start button to be pressed.
+        waitForStart();
 
         // Loop until we are asked to stop
         while (opModeIsActive()) {
@@ -203,17 +223,15 @@ public class BasicAutonomous extends LinearOpMode {
             /** Use telemetry to display feedback on the driver station. We show the conversion
              * of the colors to hue, saturation and value, and display the the normalized values
              * as returned from the sensor.
-             * @see <a href="http://infohost.nmt.edu/tcc/help/pubs/colortheory/web/hsv.html">HSV</a>
-
+             * @see <a href="http://infohost.nmt.edu/tcc/help/pubs/colortheory/web/hsv.html">HSV</a>*/
+    /*
             Color.colorToHSV(colors.toColor(), hsvValues);
             if (hsvValues[0] <= 230 && hsvValues[0] >= 200) {
                 //blue jewel
                 driveStraight(1);
-                sleep(1000);
             } else if (hsvValues[0] <= 5 || hsvValues[0] >= 350) {
                 //red jewel
                 driveStraight(-1);
-                sleep(1000);
             }
 
             telemetry.addLine()
@@ -226,15 +244,16 @@ public class BasicAutonomous extends LinearOpMode {
                     .addData("g", "%.3f", colors.green)
                     .addData("b", "%.3f", colors.blue);
 
-            //We also display a conversion of the colors to an equivalent Android color integer.
-
+            /** We also display a conversion of the colors to an equivalent Android color integer.
+             * @see Color */
+    /*
             int color = colors.toColor();
             telemetry.addLine("raw Android color: ")
                     .addData("a", "%02x", Color.alpha(color))
                     .addData("r", "%02x", Color.red(color))
                     .addData("g", "%02x", Color.green(color))
                     .addData("b", "%02x", Color.blue(color));
-
+        */
             // Balance the colors. The values returned by getColors() are normalized relative to the
             // maximum possible values that the sensor can measure. For example, a sensor might in a
             // particular configuration be able to internally measure color intensity in a range of
@@ -245,6 +264,8 @@ public class BasicAutonomous extends LinearOpMode {
             // intensities of the colors are likely what is most interesting. Here, for example, we boost
             // the signal on the colors while maintaining their relative balance so as to give more
             // vibrant visual feedback on the robot controller visual display.
+
+        /*
             float max = Math.max(Math.max(Math.max(colors.red, colors.green), colors.blue), colors.alpha);
             colors.red /= max;
             colors.green /= max;
@@ -270,5 +291,6 @@ public class BasicAutonomous extends LinearOpMode {
                 }
             });
         }
-    }*/
+    }
+    */
 }
