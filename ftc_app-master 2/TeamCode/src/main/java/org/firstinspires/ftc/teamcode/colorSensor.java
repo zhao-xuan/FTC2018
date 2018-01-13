@@ -68,6 +68,8 @@ public class colorSensor extends LinearOpMode {
     public DcMotor leftDriveb;
     public DcMotor rightDriveb;
     public Servo sideArm;
+    public Servo handLeft;
+    public Servo handRight;
     public ModernRoboticsI2cColorSensor colorSensor = null;
 
 
@@ -88,6 +90,9 @@ public class colorSensor extends LinearOpMode {
         leftDriveb  = hardwareMap.get(DcMotor.class, "left_driveb");
         rightDriveb = hardwareMap.get(DcMotor.class, "right_driveb");
         sideArm = hardwareMap.get(Servo.class, "sideArm");
+        handLeft = hardwareMap.get(Servo.class, "handLeft");
+        handRight = hardwareMap.get(Servo.class, "handRight");
+
         colorSensor = hardwareMap.get(ModernRoboticsI2cColorSensor.class, "colorSensor");
 
         // Most robots need the motor on one side to be reversed to drive forward
@@ -103,7 +108,8 @@ public class colorSensor extends LinearOpMode {
         runtime.reset();
 
         sideArm.setPosition(0.3);
-
+        handLeft.setPosition(0);
+        handRight.setPosition(0.8);
 
         while (opModeIsActive()){
             //sideArm.setPosition(0.3);
@@ -114,12 +120,29 @@ public class colorSensor extends LinearOpMode {
                 sleep(250);
                 stopDriving();
                 sideArm.setPosition(1);
+                sleep(250);
+                driveStraight(1);
+                sleep(1000);
+                driveHorizontal(-1);
+                sleep(300);
+                driveStraight(1);
+                sleep(150);
+                stopDriving();
+
             }
             else if (color_num >= 10 && color_num <= 12){
                 driveStraight(-1); //we are red team, recognize the ball is red, go back
                 sleep(250);
                 stopDriving();
                 sideArm.setPosition(1);
+                sleep(250);
+                driveStraight(1);
+                sleep(1200);
+                driveHorizontal(-1);
+                sleep(300);
+                driveStraight(1);
+                sleep(150);
+                stopDriving();
 
             }
 
@@ -178,18 +201,19 @@ public class colorSensor extends LinearOpMode {
     }
 
     public void turn (double power) {
-        //double r = Math.hypot(-gamepad1.right_stick_x, gamepad1.left_stick_y); //check if we need to make "gamepad1.left_stick_y" negative"
-        //double robotAngle = Math.atan2(gamepad1.left_stick_y, gamepad1.left_stick_x) - Math.PI / 4;
-        //double rightX = -gamepad1.right_stick_x;
-        final double v1 = Math.abs(power) * Math.cos(-Math.PI/4) + power;
-        final double v2 = Math.abs(power) * Math.sin(-Math.PI/4) - power;
-        final double v3 = Math.abs(power) * Math.sin(-Math.PI/4) + power;
-        final double v4 = Math.abs(power) * Math.cos(-Math.PI/4) - power;
+        //1 turn left, -1 turn right
 
-        leftDrivef.setPower(v1);
-        rightDrivef.setPower(v2);
-        leftDriveb.setPower(v3);
-        rightDriveb.setPower(v4);
+        leftDrivef.setPower(-power);
+        rightDrivef.setPower(power);
+        leftDriveb.setPower(-power);
+        rightDriveb.setPower(power);
+    }
+    public void driveHorizontal  (double power){
+        //1 to left, -1 to right
+        leftDrivef.setPower(-power);
+        rightDrivef.setPower(power);
+        leftDriveb.setPower(power);
+        rightDriveb.setPower(-power);
     }
     /*
     protected void runSample() throws InterruptedException {
