@@ -67,6 +67,7 @@ public class colorSensor extends LinearOpMode {
     public DcMotor rightDrivef;
     public DcMotor leftDriveb;
     public DcMotor rightDriveb;
+    public DcMotor forklift;
     public Servo sideArm;
     public Servo handLeft;
     public Servo handRight;
@@ -89,6 +90,7 @@ public class colorSensor extends LinearOpMode {
         rightDrivef = hardwareMap.get(DcMotor.class, "right_drivef");
         leftDriveb  = hardwareMap.get(DcMotor.class, "left_driveb");
         rightDriveb = hardwareMap.get(DcMotor.class, "right_driveb");
+        forklift = hardwareMap. get(DcMotor.class, "forklift");
         sideArm = hardwareMap.get(Servo.class, "sideArm");
         handLeft = hardwareMap.get(Servo.class, "handLeft");
         handRight = hardwareMap.get(Servo.class, "handRight");
@@ -110,38 +112,58 @@ public class colorSensor extends LinearOpMode {
         sideArm.setPosition(0.3);
         handLeft.setPosition(0);
         handRight.setPosition(0.8);
+        //forklift.setPower(1);
+       // sleep(250);
+        //stopForklift();
+
 
         while (opModeIsActive()){
             //sideArm.setPosition(0.3);
             colorSensor.enableLed(true);
             int color_num = colorSensor.readUnsignedByte(ModernRoboticsI2cColorSensor.Register.COLOR_NUMBER);
-            if (color_num >= 1 && color_num <= 3){
+            telemetry.addData("Status", "Run Time: " + color_num );
+            telemetry.update();
+            if (color_num >= 1 && color_num <= 4){
                 driveStraight(1); //we are red team, recognize the ball is blue, go foward
-                sleep(250);
+                sleep(200);
                 stopDriving();
                 sideArm.setPosition(1);
                 sleep(250);
                 driveStraight(1);
-                sleep(1000);
-                driveHorizontal(-1);
-                sleep(300);
-                driveStraight(1);
-                sleep(150);
+                sleep(550);
                 stopDriving();
-
+                driveHorizontal(1);
+                sleep(800);
+                stopDriving();
+                driveStraight(1);
+                sleep(205);
+                stopDriving();
+                turn(-1);
+                sleep(180);
+                stopDriving();
             }
-            else if (color_num >= 10 && color_num <= 12){
+            else if (color_num >= 9 && color_num <= 12){
                 driveStraight(-1); //we are red team, recognize the ball is red, go back
-                sleep(250);
+                sleep(70);
                 stopDriving();
+                sleep(300);
                 sideArm.setPosition(1);
-                sleep(250);
-                driveStraight(1);
-                sleep(1200);
-                driveHorizontal(-1);
                 sleep(300);
                 driveStraight(1);
-                sleep(150);
+                sleep(285);
+                stopDriving();
+                sleep(2000);
+                driveStraight(1);
+                sleep(555);
+                stopDriving();
+                driveHorizontal(1);
+                sleep(800);
+                stopDriving();
+                driveStraight(1);
+                sleep(200);
+                stopDriving();
+                turn(-1);
+                sleep(190);
                 stopDriving();
 
             }
@@ -200,6 +222,7 @@ public class colorSensor extends LinearOpMode {
         driveStraight (0);
     }
 
+
     public void turn (double power) {
         //1 turn left, -1 turn right
 
@@ -215,6 +238,13 @@ public class colorSensor extends LinearOpMode {
         leftDriveb.setPower(power);
         rightDriveb.setPower(-power);
     }
+    public void up (double power)
+    {forklift.setPower(power);}
+
+    public void stopForklift()
+    {up (0);}
+
+
     /*
     protected void runSample() throws InterruptedException {
 
