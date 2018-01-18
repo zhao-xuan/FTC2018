@@ -49,9 +49,9 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="SimpleAuto", group="Linear Opmode")
+@Autonomous(name="blueEasy", group="Linear Opmode")
 //@Disabled
-public class SimpleAutonomous extends LinearOpMode {
+public class blueOne extends LinearOpMode {
 
     // Declare OpMode members.
 
@@ -60,8 +60,16 @@ public class SimpleAutonomous extends LinearOpMode {
     public DcMotor rightDrivef;
     public DcMotor leftDriveb;
     public DcMotor rightDriveb;
+    public DcMotor forklift;
+    public Servo sideArm;
+    //public Servo handLeft;
+    //public Servo handRight;
     public ModernRoboticsI2cColorSensor colorSensor = null;
 
+
+
+    //NormalizedColorSensor colorSensor;
+    //View relativeLayout;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -75,6 +83,11 @@ public class SimpleAutonomous extends LinearOpMode {
         rightDrivef = hardwareMap.get(DcMotor.class, "right_drivef");
         leftDriveb  = hardwareMap.get(DcMotor.class, "left_driveb");
         rightDriveb = hardwareMap.get(DcMotor.class, "right_driveb");
+        forklift = hardwareMap. get(DcMotor.class, "forklift");
+        sideArm = hardwareMap.get(Servo.class, "sideArm");
+        //handLeft = hardwareMap.get(Servo.class, "handLeft");
+        //handRight = hardwareMap.get(Servo.class, "handRight");
+
         colorSensor = hardwareMap.get(ModernRoboticsI2cColorSensor.class, "colorSensor");
 
         // Most robots need the motor on one side to be reversed to drive forward
@@ -84,29 +97,87 @@ public class SimpleAutonomous extends LinearOpMode {
         leftDriveb.setDirection(DcMotor.Direction.REVERSE);
         rightDriveb.setDirection(DcMotor.Direction.FORWARD);
 
+
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
         runtime.reset();
 
-        colorSensor.enableLed(true);
-        /*
-        if (colorSensor.readUnsignedByte(ModernRoboticsI2cColorSensor.Register.COLOR_NUMBER) >= 1 && colorSensor.readUnsignedByte(ModernRoboticsI2cColorSensor.Register.COLOR_NUMBER) <= 3){
-            driveStraight(1); //we are red team, recognize the ball is blue, go foward
-        }
-        else if (colorSensor.readUnsignedByte(ModernRoboticsI2cColorSensor.Register.COLOR_NUMBER) >= 10 && colorSensor.readUnsignedByte(ModernRoboticsI2cColorSensor.Register.COLOR_NUMBER) <= 12){
-            driveStraight(-1); //we are red team, recognize the ball is red, go back
-        }
-        // run until the end of the match (driver presses STOP)
-        */
-        driveStraight(1);
-        sleep(2000); //for 5 seconds
-        turn(1);
-        sleep(1000); //for 1 second
-        stopDriving();
+        sideArm.setPosition(0.3);
+        //handLeft.setPosition(0);
+        //handRight.setPosition(0.8);
+        //up(1);
+        //sleep(650);
+        //stopForklift();
 
-        // Show the elapsed game time and wheel power.
-        telemetry.addData("Status", "Run Time: " + runtime.toString());
-        telemetry.update();
+
+        while (opModeIsActive()){
+            //sideArm.setPosition(0.3);
+            colorSensor.enableLed(true);
+            int color_num = colorSensor.readUnsignedByte(ModernRoboticsI2cColorSensor.Register.COLOR_NUMBER);
+            telemetry.addData("Status", "Run Time: " + color_num );
+            telemetry.update();
+            if (color_num >= 1 && color_num <= 4){
+                driveStraight(-1); //we are blue team, recognize the ball is blue, go back
+                sleep(200);
+                stopDriving();
+                sleep(800);
+                sideArm.setPosition(1);
+                sleep(250);
+                driveStraight(-1);
+                sleep(550);
+                stopDriving();
+                driveHorizontal(1);
+                sleep(800);
+                stopDriving();
+                driveStraight(-1);
+                sleep(205);
+                stopDriving();
+                turn(-1);
+                sleep(200);
+                stopDriving();
+                //up(-1);
+                //sleep(650);
+                //stopForklift();
+                //sleep(500);
+                //handLeft.setPosition(0.6);
+                //handRight.setPosition(0.2);
+                //driveStraight(1);
+                //sleep(100);
+                //stopDriving();
+            }
+            else if (color_num >= 9 && color_num <= 12){
+                driveStraight(1); //we are blue team, recognize the ball is red, go forward
+                sleep(70);
+                stopDriving();
+                sleep(300);
+                sideArm.setPosition(1);
+                sleep(300);
+                driveStraight(-1);
+                sleep(285);
+                stopDriving();
+                sleep(2000);
+                driveStraight(-1);
+                sleep(585);
+                stopDriving();
+                driveHorizontal(1);
+                sleep(800);
+                stopDriving();
+                driveStraight(-1);
+                sleep(200);
+                stopDriving();
+                turn(-1);
+                sleep(190);
+                stopDriving();
+
+            }
+
+
+            telemetry.addData("Status", "Run Time: " + color_num);
+            telemetry.update();
+
+        }
+
+
     }
 
     public void driveStraight (double power){
@@ -120,15 +191,27 @@ public class SimpleAutonomous extends LinearOpMode {
         driveStraight (0);
     }
 
-    public void turn (double power) {
-        final double v1 = Math.abs(power) * Math.cos(-Math.PI/4) + power;
-        final double v2 = Math.abs(power) * Math.sin(-Math.PI/4) - power;
-        final double v3 = Math.abs(power) * Math.sin(-Math.PI/4) + power;
-        final double v4 = Math.abs(power) * Math.cos(-Math.PI/4) - power;
 
-        leftDrivef.setPower(v1);
-        rightDrivef.setPower(v2);
-        leftDriveb.setPower(v3);
-        rightDriveb.setPower(v4);
+    public void turn (double power) {
+        //1 turn left, -1 turn right
+
+        leftDrivef.setPower(-power);
+        rightDrivef.setPower(power);
+        leftDriveb.setPower(-power);
+        rightDriveb.setPower(power);
     }
+    public void driveHorizontal  (double power){
+        //1 to left, -1 to right
+        leftDrivef.setPower(-power);
+        rightDrivef.setPower(power);
+        leftDriveb.setPower(power);
+        rightDriveb.setPower(-power);
+    }
+    public void up (double power)
+    {forklift.setPower(power);}
+
+    public void stopForklift()
+    {up (0);}
+
+
 }

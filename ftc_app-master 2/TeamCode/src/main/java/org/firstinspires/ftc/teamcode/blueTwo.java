@@ -29,19 +29,12 @@
 
 package org.firstinspires.ftc.teamcode;
 
-import android.graphics.Color;
-import android.view.View;
-
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.util.Range;
-import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cColorSensor;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 /**
  * This file contains an minimal example of a Linear "OpMode". An OpMode is a 'program' that runs in either
@@ -56,9 +49,9 @@ import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cColorSensor;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="redEasy", group="Linear Opmode")
+@Autonomous(name="blueDifficult", group="Linear Opmode")
 //@Disabled
-public class redOne extends LinearOpMode {
+public class blueTwo extends LinearOpMode {
 
     // Declare OpMode members.
 
@@ -124,25 +117,25 @@ public class redOne extends LinearOpMode {
             telemetry.addData("Status", "Run Time: " + color_num );
             telemetry.update();
             if (color_num >= 1 && color_num <= 4){
-                driveStraight(1); //we are red team, recognize the ball is blue, go foward
+                driveStraight(-1); //we are blue team, recognize the ball is blue, go back
                 sleep(200);
                 stopDriving();
                 sideArm.setPosition(1);
                 sleep(250);
-                driveStraight(1);
+                driveStraight(-1);
                 sleep(550);
                 stopDriving();
-                driveHorizontal(1);
+                driveHorizontal(-1);
                 sleep(800);
                 stopDriving();
-                driveStraight(1);
-                sleep(205);
+                //driveStraight(1);
+                //sleep(205);
                 stopDriving();
-                turn(-1);
+                turn(1);
                 sleep(200);
                 stopDriving();
                 //up(-1);
-                sleep(650);
+                //sleep(650);
                 //stopForklift();
                 //sleep(500);
                 //handLeft.setPosition(0.6);
@@ -152,26 +145,26 @@ public class redOne extends LinearOpMode {
                 //stopDriving();
             }
             else if (color_num >= 9 && color_num <= 12){
-                driveStraight(-1); //we are red team, recognize the ball is red, go back
+                driveStraight(1); //we are blue team, recognize the ball is red, go forward
                 sleep(70);
                 stopDriving();
                 sleep(300);
                 sideArm.setPosition(1);
                 sleep(300);
-                driveStraight(1);
+                driveStraight(-1);
                 sleep(285);
                 stopDriving();
                 sleep(2000);
-                driveStraight(1);
+                driveStraight(-1);
                 sleep(555);
                 stopDriving();
-                driveHorizontal(1);
+                driveHorizontal(-1);
                 sleep(800);
                 stopDriving();
-                driveStraight(1);
-                sleep(200);
-                stopDriving();
-                turn(-1);
+                //driveStraight(1);
+                //sleep(200);
+                //stopDriving();
+                turn(1);
                 sleep(190);
                 stopDriving();
 

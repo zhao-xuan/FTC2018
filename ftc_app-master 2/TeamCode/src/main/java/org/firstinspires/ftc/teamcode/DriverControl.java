@@ -34,6 +34,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.CRServo;
 
 
 /**
@@ -60,8 +61,9 @@ public class DriverControl extends LinearOpMode {
     private DcMotor leftDriveb;
     private DcMotor rightDriveb;
     private DcMotor forklift;
-    private Servo handLeft;
-    private Servo handRight;
+    private CRServo handLeft;
+    private CRServo handRight;
+    private Servo sideArm;
 
     @Override
     public void runOpMode() {
@@ -76,75 +78,108 @@ public class DriverControl extends LinearOpMode {
         leftDriveb  = hardwareMap.get(DcMotor.class, "left_driveb");
         rightDriveb = hardwareMap.get(DcMotor.class, "right_driveb");
         forklift = hardwareMap.get(DcMotor.class, "forklift");
-        handLeft = hardwareMap.get(Servo.class, "handLeft");
-        handRight = hardwareMap.get(Servo.class, "handRight");
+        handLeft = hardwareMap.get(CRServo.class, "handLeft");
+        handRight = hardwareMap.get(CRServo.class, "handRight");
+        sideArm = hardwareMap.get(Servo.class, "sideArm");
 
         // Most robots need the motor on one side to be reversed to drive forward
         // Reverse the motor that runs backwards when connected directly to the battery
-        leftDrivef.setDirection(DcMotor.Direction.FORWARD);
-        rightDrivef.setDirection(DcMotor.Direction.REVERSE);
-        leftDriveb.setDirection(DcMotor.Direction.FORWARD);
-        rightDriveb.setDirection(DcMotor.Direction.REVERSE);
+        leftDrivef.setDirection(DcMotor.Direction.REVERSE);
+        rightDrivef.setDirection(DcMotor.Direction.FORWARD);
+        leftDriveb.setDirection(DcMotor.Direction.REVERSE);
+        rightDriveb.setDirection(DcMotor.Direction.FORWARD);
         forklift.setDirection(DcMotor.Direction.FORWARD);
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
         runtime.reset();
 
-        // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
 
-            // Setup a variable for each drive wheel to save power level for telemetry
 
 
-            // Choose to drive using either Tank Mode, or POV Mode
-            // Comment out the method that's not used.  The default below is POV.
+            sideArm.setPosition(1);
 
-            // POV Mode uses left stick to go forward, and right stick to turn.
-            // - This uses basic math to combine motions and is easier to drive straight.
 
-            //set the received right joystick x value to neg
-            double r = Math.hypot(-gamepad1.right_stick_x, gamepad1.left_stick_y); //check if we need to make "gamepad1.left_stick_y" negative"
-            double robotAngle = Math.atan2(gamepad1.left_stick_y, gamepad1.left_stick_x) - Math.PI / 4;
-            double rightX = -gamepad1.right_stick_x;
-            final double v1 = r * Math.cos(robotAngle) + rightX;
-            final double v2 = r * Math.sin(robotAngle) - rightX;
-            final double v3 = r * Math.sin(robotAngle) + rightX;
-            final double v4 = r * Math.cos(robotAngle) - rightX;
 
-            leftDrivef.setPower(v1);
-            rightDrivef.setPower(v2);
-            leftDriveb.setPower(v3);
-            rightDriveb.setPower(v4);
+            if (gamepad1.dpad_up){
+                driveStraight(0.4);
+            } else if (gamepad1.dpad_down) {
+                driveStraight(-0.4);
+            } else if (gamepad1.dpad_left) {
+                driveHorizontal(1);
+            } else if (gamepad1.dpad_right) {
+                driveHorizontal(-1);
+            } 
+            //turning
+            else if (gamepad1.x) {
+                turn(0.35);
+            } else if (gamepad1.b) {
+                turn(-0.35);
+            } else {
+                stopDriving();
+            }
 
             //Control the forklift
-            if (gamepad1.a){
-                forklift.setPower(0.6);
-            }
-            else if (gamepad1.b){
+            if (gamepad2.dpad_up){
                 forklift.setPower(-0.6);
+            }
+            else if (gamepad2.dpad_down){
+                forklift.setPower(0.6);
             }
             else{
                 forklift.setPower(0);
             }
 
             //Control the hand (servo)
-            if(gamepad1.y){
-                handLeft.setPosition(0);
-                handRight.setPosition(0.8);
+            if(gamepad2.x){
+                //close
+                handLeft.setPower(0.6);
             }
-            else if (gamepad1.x){
-                handLeft.setPosition(0.6);
-                handRight.setPosition(0.2);
+            else if (gamepad2.y){
+                //open
+                handLeft.setPower(-0.6);
+            }
+            else{
+                handLeft.setPower(0);
             }
 
-            // Show the elapsed game time and wheel power.
-            telemetry.addData("Status", "Run Time: " + runtime.toString());
-            telemetry.addData("Servo Position", handLeft.getPosition());
-            telemetry.addData("Servo Position", handRight.getPosition());
+            if(gamepad2.a){
+                handRight.setPower(-0.6);
+            }
+            else if (gamepad2.b){
+                handRight.setPower(0.6);
+            }
+            else{
+                handRight.setPower(0);
+            }
 
-            //This is TOM horsing around
-            telemetry.update();
         }
     }
+    public void driveStraight (double power){
+        leftDrivef.setPower(power);
+        rightDrivef.setPower(power);
+        leftDriveb.setPower(power);
+        rightDriveb.setPower(power);
+    }
+    public void stopDriving (){
+        driveStraight(0);
+    }
+
+    public void turn (double power) {
+        //1 turn left, -1 turn right
+        leftDrivef.setPower(-power);
+        rightDrivef.setPower(power);
+        leftDriveb.setPower(-power);
+        rightDriveb.setPower(power);
+    }
+    public void driveHorizontal  (double power){
+        //1 to left, -1 to right
+        leftDrivef.setPower(-power);
+        rightDrivef.setPower(power);
+        leftDriveb.setPower(power);
+        rightDriveb.setPower(-power);
+    }
+
 }
+

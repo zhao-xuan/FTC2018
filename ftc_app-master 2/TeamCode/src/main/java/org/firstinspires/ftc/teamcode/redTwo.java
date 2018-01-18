@@ -49,7 +49,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="ColorSensor", group="Linear Opmode")
+@Autonomous(name="redDifficult", group="Linear Opmode")
 //@Disabled
 public class redTwo extends LinearOpMode {
 
@@ -102,9 +102,9 @@ public class redTwo extends LinearOpMode {
         waitForStart();
         runtime.reset();
 
-        sideArm.setPosition(0.3);
-        handLeft.setPosition(0);
-        handRight.setPosition(0.8);
+        //sideArm.setPosition(0.3);
+        //handLeft.setPosition(0);
+        //handRight.setPosition(0.8);
         //up(1);
         //sleep(250);
         //stopForklift();
@@ -172,44 +172,10 @@ public class redTwo extends LinearOpMode {
 
         }
 
-        // run until the end of the match (driver presses STOP)
-        //while (opModeIsActive()) {
 
-            //driveStraight(1);
-            //sleep(5000); //for 5 seconds
-            //turn(1);
-            //sleep(2000);
-            //stopDriving();
-        /*
-            try {
-                runSample(); // actually execute the sample
-            } finally {
-                // On the way out, *guarantee* that the background is reasonable. It doesn't actually start off
-                // as pure white, but it's too much work to dig out what actually was used, and this is good
-                // enough to at least make the screen reasonable again.
-                // Set the panel back to the default color
-                relativeLayout.post(new Runnable() {
-                    public void run() {
-                        relativeLayout.setBackgroundColor(Color.WHITE);
-                    }
-                });
-            }
-          */
-            // Show the elapsed game time and wheel power.
-
-        //}
     }
 
     public void driveStraight (double power){
-        //double r = Math.abs (power);
-        //double robotAngle = Math.atan2(-power, 0) - Math.PI/4;
-        //Math.atan2(-power, 0) == 0
-
-        //final double v1 = Math.abs(power) * Math.cos(-Math.PI/4);
-        //final double v2 = Math.abs(power) * Math.sin(-Math.PI/4);
-        //final double v3 = Math.abs(power) * Math.sin(-Math.PI/4);
-        //final double v4 = Math.abs(power) * Math.cos(-Math.PI/4);
-        //or maybe just set their power to 1?
         leftDrivef.setPower(power);
         rightDrivef.setPower(power);
         leftDriveb.setPower(power);
