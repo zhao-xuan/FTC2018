@@ -118,15 +118,16 @@ public class redTwo extends LinearOpMode {
             telemetry.update();
             if (color_num >= 1 && color_num <= 4){
                 driveStraight(1); //we are red team, recognize the ball is blue, go foward
-                sleep(200);
+                sleep(70);
                 stopDriving();
                 sideArm.setPosition(1);
                 sleep(250);
                 driveStraight(1);
-                sleep(500);
+                sleep(650);
                 stopDriving();
+                sleep(500);
                 driveHorizontal(-1);
-                sleep(800);
+                sleep(900);
                 stopDriving();
                 //driveStraight(1);
                 //sleep(205);
@@ -148,14 +149,15 @@ public class redTwo extends LinearOpMode {
                 sideArm.setPosition(1);
                 sleep(300);
                 driveStraight(1);
-                sleep(285);
+                sleep(185);
                 stopDriving();
-                sleep(2000);
+                sleep(1000);
                 driveStraight(1);
-                sleep(500);
+                sleep(600);
                 stopDriving();
+                sleep(1000);
                 driveHorizontal(-1);
-                sleep(800);
+                sleep(900);
                 stopDriving();
                 //driveStraight(1);
                 //sleep(200);
