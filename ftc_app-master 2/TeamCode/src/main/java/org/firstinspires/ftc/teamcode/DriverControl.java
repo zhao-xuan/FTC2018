@@ -110,7 +110,7 @@ public class DriverControl extends LinearOpMode {
                 driveHorizontal(1);
             } else if (gamepad1.dpad_right) {
                 driveHorizontal(-1);
-            } 
+            }
             //turning
             else if (gamepad1.x) {
                 turn(0.35);
@@ -132,11 +132,11 @@ public class DriverControl extends LinearOpMode {
             }
 
             //Control the hand (servo)
-            if(gamepad2.x){
+            if(gamepad2.y){
                 //close
                 handLeft.setPower(0.6);
             }
-            else if (gamepad2.y){
+            else if (gamepad2.x){
                 //open
                 handLeft.setPower(-0.6);
             }
@@ -144,10 +144,10 @@ public class DriverControl extends LinearOpMode {
                 handLeft.setPower(0);
             }
 
-            if(gamepad2.a){
+            if(gamepad2.b){
                 handRight.setPower(-0.6);
             }
-            else if (gamepad2.b){
+            else if (gamepad2.a){
                 handRight.setPower(0.6);
             }
             else{

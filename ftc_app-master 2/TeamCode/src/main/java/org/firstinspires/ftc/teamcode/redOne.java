@@ -125,24 +125,26 @@ public class redOne extends LinearOpMode {
             telemetry.update();
             if (color_num >= 1 && color_num <= 4){
                 driveStraight(1); //we are red team, recognize the ball is blue, go foward
-                sleep(200);
+                sleep(70);
                 stopDriving();
+                sleep(500);
                 sideArm.setPosition(1);
-                sleep(250);
+                sleep(500);
                 driveStraight(1);
-                sleep(550);
+                sleep(650);
                 stopDriving();
+                sleep(1000);
                 driveHorizontal(1);
-                sleep(800);
+                sleep(1080);
                 stopDriving();
                 driveStraight(1);
-                sleep(205);
+                sleep(305);
                 stopDriving();
                 turn(-1);
-                sleep(200);
+                sleep(65);
                 stopDriving();
                 //up(-1);
-                sleep(650);
+                //sleep(650);
                 //stopForklift();
                 //sleep(500);
                 //handLeft.setPosition(0.6);
@@ -153,26 +155,27 @@ public class redOne extends LinearOpMode {
             }
             else if (color_num >= 9 && color_num <= 12){
                 driveStraight(-1); //we are red team, recognize the ball is red, go back
-                sleep(70);
+                sleep(90);
                 stopDriving();
-                sleep(300);
+                sleep(500);
                 sideArm.setPosition(1);
-                sleep(300);
+                sleep(500);
+                driveStraight(1);
+                sleep(195);
+                stopDriving();
+                sleep(1000);
+                driveStraight(1);
+                sleep(570);
+                stopDriving();
+                sleep(1000);
+                driveHorizontal(1);
+                sleep(980);
+                stopDriving();
                 driveStraight(1);
                 sleep(285);
                 stopDriving();
-                sleep(2000);
-                driveStraight(1);
-                sleep(555);
-                stopDriving();
-                driveHorizontal(1);
-                sleep(800);
-                stopDriving();
-                driveStraight(1);
-                sleep(200);
-                stopDriving();
                 turn(-1);
-                sleep(190);
+                sleep(80);
                 stopDriving();
 
             }

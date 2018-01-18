@@ -126,15 +126,16 @@ public class blueOne extends LinearOpMode {
                 driveStraight(-1);
                 sleep(550);
                 stopDriving();
+                sleep(1000);
                 driveHorizontal(1);
                 sleep(800);
                 stopDriving();
                 driveStraight(-1);
-                sleep(205);
+                sleep(195);
                 stopDriving();
-                turn(-1);
-                sleep(200);
-                stopDriving();
+                //turn(-1);
+                //sleep(50);
+                //stopDriving();
                 //up(-1);
                 //sleep(650);
                 //stopForklift();
@@ -159,15 +160,16 @@ public class blueOne extends LinearOpMode {
                 driveStraight(-1);
                 sleep(585);
                 stopDriving();
+                sleep(1100);
                 driveHorizontal(1);
                 sleep(800);
                 stopDriving();
                 driveStraight(-1);
-                sleep(200);
+                sleep(300);
                 stopDriving();
-                turn(-1);
-                sleep(190);
-                stopDriving();
+                //turn(-1);
+                //sleep(190);
+               // stopDriving();
 
             }
 
