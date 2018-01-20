@@ -109,7 +109,7 @@ public class redOne extends LinearOpMode {
         waitForStart();
         runtime.reset();
 
-        sideArm.setPosition(0.35);
+        sideArm.setPosition(0.42);
         //handLeft.setPosition(0);
         //handRight.setPosition(0.8);
         //up(1);

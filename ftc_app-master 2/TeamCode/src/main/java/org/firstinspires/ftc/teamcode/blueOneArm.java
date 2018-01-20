@@ -103,7 +103,7 @@ public class blueOneArm extends LinearOpMode {
         waitForStart();
         runtime.reset();
 
-        sideArm.setPosition(0.3);
+        sideArm.setPosition(0.42);
         handLeft.setPower(0.6);
         handRight.setPower(-0.6);
         up(1);

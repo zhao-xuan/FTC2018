@@ -102,7 +102,7 @@ public class blueTwo extends LinearOpMode {
         waitForStart();
         runtime.reset();
 
-        sideArm.setPosition(0.3);
+        sideArm.setPosition(0.42);
         //handLeft.setPosition(0);
         //handRight.setPosition(0.8);
         //up(1);
@@ -118,22 +118,24 @@ public class blueTwo extends LinearOpMode {
             telemetry.update();
             if (color_num >= 1 && color_num <= 4){
                 driveStraight(-1); //we are blue team, recognize the ball is blue, go back
-                sleep(200);
+                sleep(120);
                 stopDriving();
+                sleep(800);
                 sideArm.setPosition(1);
-                sleep(500);
+                sleep(300);
                 driveStraight(-1);
                 sleep(600);
                 stopDriving();
+                sleep(1000);
                 driveHorizontal(-1);
-                sleep(650);
+                sleep(640);
                 stopDriving();
                 //driveStraight(1);
                 //sleep(205);
-                stopDriving();
-                turn(1);
-                sleep(50);
-                stopDriving();
+                //stopDriving();
+                //turn(1);
+                //sleep(50);
+                //stopDriving();
                 //up(-1);
                 //sleep(650);
                 //stopForklift();
@@ -154,19 +156,19 @@ public class blueTwo extends LinearOpMode {
                 driveStraight(-1);
                 sleep(285);
                 stopDriving();
-                sleep(1000);
+                sleep(2000);
                 driveStraight(-1);
-                sleep(555);
+                sleep(480);
                 stopDriving();
                 driveHorizontal(-1);
-                sleep(650);
+                sleep(660);
                 stopDriving();
                 //driveStraight(1);
                 //sleep(200);
                 //stopDriving();
-                turn(1);
-                sleep(50);
-                stopDriving();
+                //turn(1);
+                //sleep(50);
+                //stopDriving();
 
             }
 

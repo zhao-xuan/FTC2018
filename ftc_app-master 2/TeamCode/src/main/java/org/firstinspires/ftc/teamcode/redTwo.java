@@ -62,8 +62,8 @@ public class redTwo extends LinearOpMode {
     public DcMotor rightDriveb;
     public DcMotor forklift;
     public Servo sideArm;
-    public Servo handLeft;
-    public Servo handRight;
+    //public Servo handLeft;
+    //public Servo handRight;
     public ModernRoboticsI2cColorSensor colorSensor = null;
 
 
@@ -85,8 +85,8 @@ public class redTwo extends LinearOpMode {
         rightDriveb = hardwareMap.get(DcMotor.class, "right_driveb");
         forklift = hardwareMap. get(DcMotor.class, "forklift");
         sideArm = hardwareMap.get(Servo.class, "sideArm");
-        handLeft = hardwareMap.get(Servo.class, "handLeft");
-        handRight = hardwareMap.get(Servo.class, "handRight");
+        //handLeft = hardwareMap.get(Servo.class, "handLeft");
+        //handRight = hardwareMap.get(Servo.class, "handRight");
 
         colorSensor = hardwareMap.get(ModernRoboticsI2cColorSensor.class, "colorSensor");
 
@@ -102,7 +102,7 @@ public class redTwo extends LinearOpMode {
         waitForStart();
         runtime.reset();
 
-        //sideArm.setPosition(0.3);
+        sideArm.setPosition(0.42);
         //handLeft.setPosition(0);
         //handRight.setPosition(0.8);
         //up(1);
@@ -118,16 +118,17 @@ public class redTwo extends LinearOpMode {
             telemetry.update();
             if (color_num >= 1 && color_num <= 4){
                 driveStraight(1); //we are red team, recognize the ball is blue, go foward
-                sleep(70);
-                stopDriving();
-                sideArm.setPosition(1);
-                sleep(250);
-                driveStraight(1);
-                sleep(650);
+                sleep(90);
                 stopDriving();
                 sleep(500);
+                sideArm.setPosition(1);
+                sleep(500);
+                driveStraight(1);
+                sleep(740);
+                stopDriving();
+                sleep(1000);
                 driveHorizontal(-1);
-                sleep(900);
+                sleep(605);
                 stopDriving();
                 //driveStraight(1);
                 //sleep(205);
@@ -143,21 +144,21 @@ public class redTwo extends LinearOpMode {
             }
             else if (color_num >= 9 && color_num <= 12){
                 driveStraight(-1); //we are red team, recognize the ball is red, go back
-                sleep(70);
+                sleep(100);
                 stopDriving();
-                sleep(300);
+                sleep(500);
                 sideArm.setPosition(1);
-                sleep(300);
+                sleep(500);
                 driveStraight(1);
-                sleep(185);
+                sleep(200);
                 stopDriving();
                 sleep(1000);
                 driveStraight(1);
-                sleep(600);
+                sleep(740);
                 stopDriving();
                 sleep(1000);
                 driveHorizontal(-1);
-                sleep(900);
+                sleep(605);
                 stopDriving();
                 //driveStraight(1);
                 //sleep(200);
