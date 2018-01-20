@@ -103,19 +103,29 @@ public class DriverControl extends LinearOpMode {
 
 
             if (gamepad1.dpad_up){
-                driveStraight(0.4);
+                driveStraight(0.5);
             } else if (gamepad1.dpad_down) {
-                driveStraight(-0.4);
+                driveStraight(-0.5);
             } else if (gamepad1.dpad_left) {
-                driveHorizontal(1);
+                //driveHorizontal(1);
+                //lb,rf slow
+                leftDrivef.setPower(-1);
+                rightDrivef.setPower(1); //0.7
+                leftDriveb.setPower(1); //0.7
+                rightDriveb.setPower(-1);
             } else if (gamepad1.dpad_right) {
-                driveHorizontal(-1);
+                //driveHorizontal(-1);
+                //rf,lb slow
+                leftDrivef.setPower(1);
+                rightDrivef.setPower(-1);//0.7
+                leftDriveb.setPower(-1);//0.7
+                rightDriveb.setPower(1);
             }
             //turning
             else if (gamepad1.x) {
-                turn(0.35);
+                turn(0.45);
             } else if (gamepad1.b) {
-                turn(-0.35);
+                turn(-0.45);
             } else {
                 stopDriving();
             }

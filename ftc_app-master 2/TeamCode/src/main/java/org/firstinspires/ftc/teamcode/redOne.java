@@ -125,20 +125,20 @@ public class redOne extends LinearOpMode {
             telemetry.update();
             if (color_num >= 1 && color_num <= 4){
                 driveStraight(1); //we are red team, recognize the ball is blue, go foward
-                sleep(70);
+                sleep(90);
                 stopDriving();
                 sleep(500);
                 sideArm.setPosition(1);
                 sleep(500);
                 driveStraight(1);
-                sleep(650);
+                sleep(600);
                 stopDriving();
                 sleep(1000);
                 driveHorizontal(1);
-                sleep(1080);
+                sleep(800);
                 stopDriving();
                 driveStraight(1);
-                sleep(305);
+                sleep(260);
                 stopDriving();
                 turn(-1);
                 sleep(65);
@@ -155,24 +155,24 @@ public class redOne extends LinearOpMode {
             }
             else if (color_num >= 9 && color_num <= 12){
                 driveStraight(-1); //we are red team, recognize the ball is red, go back
-                sleep(90);
+                sleep(120);
                 stopDriving();
                 sleep(500);
                 sideArm.setPosition(1);
                 sleep(500);
                 driveStraight(1);
-                sleep(195);
+                sleep(245);
                 stopDriving();
                 sleep(1000);
                 driveStraight(1);
-                sleep(570);
+                sleep(670);
                 stopDriving();
                 sleep(1000);
                 driveHorizontal(1);
-                sleep(980);
+                sleep(740);
                 stopDriving();
                 driveStraight(1);
-                sleep(285);
+                sleep(305);
                 stopDriving();
                 turn(-1);
                 sleep(80);
@@ -217,11 +217,11 @@ public class redOne extends LinearOpMode {
         leftDriveb.setPower(power);
         rightDriveb.setPower(-power);
     }
-    public void up (double power)
-    {forklift.setPower(power);}
+    //public void up (double power)
+    //{forklift.setPower(power);}
 
-    public void stopForklift()
-    {up (0);}
+    //public void stopForklift()
+    //{up (0);}
 
 
 }

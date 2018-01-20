@@ -32,6 +32,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cColorSensor;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -49,9 +50,9 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="blueDifficult", group="Linear Opmode")
+@Autonomous(name="redEasy2", group="Linear Opmode")
 //@Disabled
-public class blueTwo extends LinearOpMode {
+public class redOneArm extends LinearOpMode {
 
     // Declare OpMode members.
 
@@ -62,8 +63,8 @@ public class blueTwo extends LinearOpMode {
     public DcMotor rightDriveb;
     public DcMotor forklift;
     public Servo sideArm;
-    //public Servo handLeft;
-    //public Servo handRight;
+    public CRServo handLeft;
+    public CRServo handRight;
     public ModernRoboticsI2cColorSensor colorSensor = null;
 
 
@@ -85,8 +86,8 @@ public class blueTwo extends LinearOpMode {
         rightDriveb = hardwareMap.get(DcMotor.class, "right_driveb");
         forklift = hardwareMap. get(DcMotor.class, "forklift");
         sideArm = hardwareMap.get(Servo.class, "sideArm");
-        //handLeft = hardwareMap.get(Servo.class, "handLeft");
-        //handRight = hardwareMap.get(Servo.class, "handRight");
+        handLeft = hardwareMap.get(CRServo.class, "handLeft");
+        handRight = hardwareMap.get(CRServo.class, "handRight");
 
         colorSensor = hardwareMap.get(ModernRoboticsI2cColorSensor.class, "colorSensor");
 
@@ -103,11 +104,11 @@ public class blueTwo extends LinearOpMode {
         runtime.reset();
 
         sideArm.setPosition(0.3);
-        //handLeft.setPosition(0);
-        //handRight.setPosition(0.8);
-        //up(1);
-        //sleep(650);
-        //stopForklift();
+        handLeft.setPower(0.6);
+        handRight.setPower(-0.6);
+        up(1);
+        sleep(700);
+        stopForklift();
 
 
         while (opModeIsActive()){
@@ -117,55 +118,67 @@ public class blueTwo extends LinearOpMode {
             telemetry.addData("Status", "Run Time: " + color_num );
             telemetry.update();
             if (color_num >= 1 && color_num <= 4){
-                driveStraight(-1); //we are blue team, recognize the ball is blue, go back
-                sleep(200);
+                driveStraight(1); //we are red team, recognize the ball is blue, go foward
+                sleep(90);
                 stopDriving();
+                sleep(500);
                 sideArm.setPosition(1);
                 sleep(500);
-                driveStraight(-1);
+                driveStraight(1);
                 sleep(600);
                 stopDriving();
-                driveHorizontal(-1);
-                sleep(650);
+                //sleep(1000);
+                handLeft.setPower(-0.6);
+                handRight.setPower(0.6);
+                sleep(500);
+                handLeft.setPower(0);
+                handRight.setPower(0);
+                sleep(1000);
+                driveHorizontal(1);
+                sleep(800);
                 stopDriving();
-                //driveStraight(1);
-                //sleep(205);
+                driveStraight(1);
+                sleep(245);
                 stopDriving();
-                turn(1);
-                sleep(50);
+                turn(-1);
+                sleep(65);
                 stopDriving();
                 //up(-1);
                 //sleep(650);
                 //stopForklift();
                 //sleep(500);
-                //handLeft.setPosition(0.6);
-                //handRight.setPosition(0.2);
                 //driveStraight(1);
                 //sleep(100);
                 //stopDriving();
             }
             else if (color_num >= 9 && color_num <= 12){
-                driveStraight(1); //we are blue team, recognize the ball is red, go forward
-                sleep(70);
+                driveStraight(-1); //we are red team, recognize the ball is red, go back
+                sleep(120);
                 stopDriving();
-                sleep(300);
+                sleep(500);
                 sideArm.setPosition(1);
-                sleep(300);
-                driveStraight(-1);
-                sleep(285);
+                sleep(500);
+                driveStraight(1);
+                sleep(245);
                 stopDriving();
                 sleep(1000);
-                driveStraight(-1);
-                sleep(555);
+                driveStraight(1);
+                sleep(510);
                 stopDriving();
-                driveHorizontal(-1);
-                sleep(650);
+                handLeft.setPower(-0.6);
+                handRight.setPower(0.6);
+                sleep(500);
+                handLeft.setPower(0);
+                handRight.setPower(0);
+                sleep(1000);
+                driveHorizontal(1);
+                sleep(740);
                 stopDriving();
-                //driveStraight(1);
-                //sleep(200);
-                //stopDriving();
-                turn(1);
-                sleep(50);
+                driveStraight(1);
+                sleep(520);
+                stopDriving();
+                turn(-1);
+                sleep(80);
                 stopDriving();
 
             }
