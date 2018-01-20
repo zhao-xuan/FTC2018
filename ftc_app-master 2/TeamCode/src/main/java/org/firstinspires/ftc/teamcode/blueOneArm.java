@@ -29,19 +29,13 @@
 
 package org.firstinspires.ftc.teamcode;
 
-import android.graphics.Color;
-import android.view.View;
-
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.util.Range;
-import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cColorSensor;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 /**
  * This file contains an minimal example of a Linear "OpMode". An OpMode is a 'program' that runs in either
@@ -56,9 +50,9 @@ import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cColorSensor;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="redEasy", group="Linear Opmode")
+@Autonomous(name="blueEasy2", group="Linear Opmode")
 //@Disabled
-public class redOne extends LinearOpMode {
+public class blueOneArm extends LinearOpMode {
 
     // Declare OpMode members.
 
@@ -69,8 +63,8 @@ public class redOne extends LinearOpMode {
     public DcMotor rightDriveb;
     public DcMotor forklift;
     public Servo sideArm;
-    //public Servo handLeft;
-    //public Servo handRight;
+    public CRServo handLeft;
+    public CRServo handRight;
     public ModernRoboticsI2cColorSensor colorSensor = null;
 
 
@@ -92,8 +86,8 @@ public class redOne extends LinearOpMode {
         rightDriveb = hardwareMap.get(DcMotor.class, "right_driveb");
         forklift = hardwareMap. get(DcMotor.class, "forklift");
         sideArm = hardwareMap.get(Servo.class, "sideArm");
-        //handLeft = hardwareMap.get(Servo.class, "handLeft");
-        //handRight = hardwareMap.get(Servo.class, "handRight");
+        handLeft = hardwareMap.get(CRServo.class, "handLeft");
+        handRight = hardwareMap.get(CRServo.class, "handRight");
 
         colorSensor = hardwareMap.get(ModernRoboticsI2cColorSensor.class, "colorSensor");
 
@@ -109,40 +103,39 @@ public class redOne extends LinearOpMode {
         waitForStart();
         runtime.reset();
 
-        sideArm.setPosition(0.35);
-        //handLeft.setPosition(0);
-        //handRight.setPosition(0.8);
-        //up(1);
-        //sleep(650);
-        //stopForklift();
+        sideArm.setPosition(0.3);
+        handLeft.setPower(0.6);
+        handRight.setPower(-0.6);
+        up(1);
+        sleep(700);
+        stopForklift();
 
 
         while (opModeIsActive()){
-            //sideArm.setPosition(0.3);
             colorSensor.enableLed(true);
             int color_num = colorSensor.readUnsignedByte(ModernRoboticsI2cColorSensor.Register.COLOR_NUMBER);
             telemetry.addData("Status", "Run Time: " + color_num );
             telemetry.update();
             if (color_num >= 1 && color_num <= 4){
-                driveStraight(1); //we are red team, recognize the ball is blue, go foward
-                sleep(90);
+                driveStraight(-1); //we are blue team, recognize the ball is blue, go back
+                sleep(200);
                 stopDriving();
-                sleep(500);
+                sleep(800);
                 sideArm.setPosition(1);
-                sleep(500);
-                driveStraight(1);
-                sleep(600);
+                sleep(250);
+                driveStraight(-1);
+                sleep(550);
                 stopDriving();
                 sleep(1000);
                 driveHorizontal(1);
-                sleep(800);
+                sleep(775);
                 stopDriving();
-                driveStraight(1);
-                sleep(260);
+                driveStraight(-1);
+                sleep(195);
                 stopDriving();
-                turn(-1);
-                sleep(65);
-                stopDriving();
+                //turn(-1);
+                //sleep(50);
+                //stopDriving();
                 //up(-1);
                 //sleep(650);
                 //stopForklift();
@@ -154,28 +147,28 @@ public class redOne extends LinearOpMode {
                 //stopDriving();
             }
             else if (color_num >= 9 && color_num <= 12){
-                driveStraight(-1); //we are red team, recognize the ball is red, go back
-                sleep(120);
+                driveStraight(1); //we are blue team, recognize the ball is red, go forward
+                sleep(70);
                 stopDriving();
-                sleep(500);
+                sleep(300);
                 sideArm.setPosition(1);
-                sleep(500);
-                driveStraight(1);
-                sleep(245);
+                sleep(300);
+                driveStraight(-1);
+                sleep(285);
                 stopDriving();
-                sleep(1000);
-                driveStraight(1);
-                sleep(670);
+                sleep(2000);
+                driveStraight(-1);
+                sleep(605);
                 stopDriving();
                 sleep(1000);
                 driveHorizontal(1);
-                sleep(740);
+                sleep(750);
                 stopDriving();
-                driveStraight(1);
-                sleep(305);
+                driveStraight(-1);
+                sleep(250);
                 stopDriving();
-                turn(-1);
-                sleep(80);
+                turn(1);
+                sleep(40);
                 stopDriving();
 
             }
@@ -190,7 +183,6 @@ public class redOne extends LinearOpMode {
     }
 
     public void driveStraight (double power){
-
         leftDrivef.setPower(power);
         rightDrivef.setPower(power);
         leftDriveb.setPower(power);
@@ -217,11 +209,11 @@ public class redOne extends LinearOpMode {
         leftDriveb.setPower(power);
         rightDriveb.setPower(-power);
     }
-    //public void up (double power)
-    //{forklift.setPower(power);}
+    public void up (double power)
+    {forklift.setPower(power);}
 
-    //public void stopForklift()
-    //{up (0);}
+    public void stopForklift()
+    {up (0);}
 
 
 }

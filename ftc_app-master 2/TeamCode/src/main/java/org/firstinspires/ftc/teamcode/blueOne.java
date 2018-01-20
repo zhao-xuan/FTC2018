@@ -102,13 +102,12 @@ public class blueOne extends LinearOpMode {
         waitForStart();
         runtime.reset();
 
-        sideArm.setPosition(0.3);
+        sideArm.setPosition(0.42);
         //handLeft.setPosition(0);
         //handRight.setPosition(0.8);
         //up(1);
         //sleep(650);
         //stopForklift();
-
 
         while (opModeIsActive()){
             //sideArm.setPosition(0.3);
@@ -118,17 +117,17 @@ public class blueOne extends LinearOpMode {
             telemetry.update();
             if (color_num >= 1 && color_num <= 4){
                 driveStraight(-1); //we are blue team, recognize the ball is blue, go back
-                sleep(200);
+                sleep(120);
                 stopDriving();
                 sleep(800);
                 sideArm.setPosition(1);
-                sleep(250);
+                sleep(300);
                 driveStraight(-1);
-                sleep(550);
+                sleep(630);
                 stopDriving();
                 sleep(1000);
                 driveHorizontal(1);
-                sleep(800);
+                sleep(755);
                 stopDriving();
                 driveStraight(-1);
                 sleep(195);
@@ -162,10 +161,10 @@ public class blueOne extends LinearOpMode {
                 stopDriving();
                 sleep(1100);
                 driveHorizontal(1);
-                sleep(800);
+                sleep(740);
                 stopDriving();
                 driveStraight(-1);
-                sleep(300);
+                sleep(295);
                 stopDriving();
                 turn(1);
                 sleep(40);
