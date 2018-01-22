@@ -128,19 +128,9 @@ public class redTwo extends LinearOpMode {
                 stopDriving();
                 sleep(1000);
                 driveHorizontal(-1);
-                sleep(605);
+                sleep(490);
                 stopDriving();
-                //driveStraight(1);
-                //sleep(205);
-                //stopDriving();
-                //turn(-1);
-                //sleep(180);
-                //stopDriving();
-                //handLeft.setPosition(0.6);
-                //handRight.setPosition(0.2);
-                //driveStraight(1);
-                //sleep(100);
-                //stopDriving();
+
             }
             else if (color_num >= 9 && color_num <= 12){
                 driveStraight(-1); //we are red team, recognize the ball is red, go back
@@ -158,14 +148,9 @@ public class redTwo extends LinearOpMode {
                 stopDriving();
                 sleep(1000);
                 driveHorizontal(-1);
-                sleep(605);
+                sleep(490);
                 stopDriving();
-                //driveStraight(1);
-                //sleep(200);
-                //stopDriving();
-                //turn(-1);
-                //sleep(190);
-                //stopDriving();
+
 
             }
 

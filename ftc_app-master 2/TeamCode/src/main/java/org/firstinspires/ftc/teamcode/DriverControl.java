@@ -103,9 +103,9 @@ public class DriverControl extends LinearOpMode {
 
 
             if (gamepad1.dpad_up){
-                driveStraight(0.5);
+                driveStraight(0.4);
             } else if (gamepad1.dpad_down) {
-                driveStraight(-0.5);
+                driveStraight(-0.4);
             } else if (gamepad1.dpad_left) {
                 //driveHorizontal(1);
                 //lb,rf slow
@@ -123,9 +123,9 @@ public class DriverControl extends LinearOpMode {
             }
             //turning
             else if (gamepad1.x) {
-                turn(0.45);
+                turn(0.37);
             } else if (gamepad1.b) {
-                turn(-0.45);
+                turn(-0.37);
             } else {
                 stopDriving();
             }

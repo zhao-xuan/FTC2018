@@ -135,14 +135,14 @@ public class redOne extends LinearOpMode {
                 stopDriving();
                 sleep(1000);
                 driveHorizontal(1);
-                sleep(800);
+                sleep(610);
                 stopDriving();
                 driveStraight(1);
-                sleep(260);
+                sleep(110);
                 stopDriving();
-                turn(-1);
-                sleep(65);
-                stopDriving();
+                //turn(-1);
+                //sleep(65);
+                //stopDriving();
                 //up(-1);
                 //sleep(650);
                 //stopForklift();
@@ -169,14 +169,15 @@ public class redOne extends LinearOpMode {
                 stopDriving();
                 sleep(1000);
                 driveHorizontal(1);
-                sleep(740);
+                sleep(610);
                 stopDriving();
+                sleep(100);
                 driveStraight(1);
-                sleep(305);
+                sleep(90);
                 stopDriving();
-                turn(-1);
-                sleep(80);
-                stopDriving();
+                //turn(-1);
+                //sleep(80);
+                //stopDriving();
 
             }
 

@@ -128,23 +128,8 @@ public class blueTwo extends LinearOpMode {
                 stopDriving();
                 sleep(1000);
                 driveHorizontal(-1);
-                sleep(640);
+                sleep(590);
                 stopDriving();
-                //driveStraight(1);
-                //sleep(205);
-                //stopDriving();
-                //turn(1);
-                //sleep(50);
-                //stopDriving();
-                //up(-1);
-                //sleep(650);
-                //stopForklift();
-                //sleep(500);
-                //handLeft.setPosition(0.6);
-                //handRight.setPosition(0.2);
-                //driveStraight(1);
-                //sleep(100);
-                //stopDriving();
             }
             else if (color_num >= 9 && color_num <= 12){
                 driveStraight(1); //we are blue team, recognize the ball is red, go forward
@@ -160,15 +145,10 @@ public class blueTwo extends LinearOpMode {
                 driveStraight(-1);
                 sleep(480);
                 stopDriving();
+                sleep(100);
                 driveHorizontal(-1);
-                sleep(660);
+                sleep(590);
                 stopDriving();
-                //driveStraight(1);
-                //sleep(200);
-                //stopDriving();
-                //turn(1);
-                //sleep(50);
-                //stopDriving();
 
             }
 
